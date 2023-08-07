@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>CRUD Application</title>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="text-center">
+            <h1 class="display-5 mb-5"><strong>CRUD APPLICATION</strong></h1>
+        </div>
+        <div class="main row justify-content-center">
+            <form action="" id="student-form" class="row justify-content-center mb-4" >
+              <div class="row">
+                <label for="search" class="col-sm-2 col-form-label" style="text-align: right;">Search</label>
+                <input type="text" [(ngModel)]="search" class="form-control" name="search" id="search">
+                {{search}}
+               </div>
+                <div class="col-10 mb-3">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" placeholder="Enter First Name" #firstName>
+                </div>
+                <div class="col-10 mb-3">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" #lastName placeholder="Enter Last Name">
+                </div>
+                <div class="col-10 mb-3">
+                    <label for="rollNumber">Roll Number</label>
+                    <input type="text" class="form-control" #rollNumber placeholder="Enter Roll Number">
+                </div>
+                <div class="col-10">
+                    <button (click)="addItem(firstName.value , lastName.value , rollNumber.value)" class="btn btn-success btn-sm">Save</button>
+                </div>
+            <div class="col-12 mt-5">
+                <table class="table table-striped table-dark">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Roll Number</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+      <!-- Loop through the students array and display the table rows -->
+      <tr *ngFor="let item of students | search:search">
+        <td *ngIf="isEditing !== item.id">{{ item.firstName }}</td>
+        <td *ngIf="isEditing === item.id">
+          <input type="text" class="form-control" [(ngModel)]="item.firstName" name="firstName">
+        </td>
+        <td *ngIf="isEditing !== item.id">{{ item.lastName }}</td>
+        <td *ngIf="isEditing === item.id">
+          <input type="text" class="form-control" [(ngModel)]="item.lastName" name="lastName">
+        </td>
+        <td *ngIf="isEditing !== item.id">{{ item.rollNumber }}</td>
+        <td *ngIf="isEditing === item.id">
+          <input type="text" class="form-control" [(ngModel)]="item.rollNumber" name="rollNumber">
+        </td>
+        <td>
+          <div *ngIf="isEditing !== item.id">
+            <a (click)="editTask(item.id)" class="btn btn-warning btn-sm">Edit</a>
+            <a (click)="removeTask(item.id)" class="btn btn-danger btn-sm">Delete</a>
+          </div>
+          <div *ngIf="isEditing === item.id">
+            <button (click)="updateTask(item.id, item.firstName, item.lastName, item.rollNumber)" class="btn btn-success btn-sm">Save</button>
+            <button (click)="isEditing = null" class="btn btn-secondary btn-sm">Cancel</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+                </table>
+            </div>
+          </form>
+        </div>
+    </div>
+
+<script src="script.js"></script>
+</body>
+
+</html>
